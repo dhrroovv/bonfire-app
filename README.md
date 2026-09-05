@@ -1,56 +1,30 @@
-# Welcome to your Expo app 👋
+# Bonfire
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bonfire is a shared space for friend groups travelling together.
 
-## Get started
+Planning a trip often splits a group across separate places: a chat for decisions and conversation, a drive for photos, and an expense app for bills. Bonfire brings those group experiences into one home.
 
-1. Install dependencies
+## The idea
 
-   ```bash
-   npm install
-   ```
+Each trip has its own group. Group members can stay in touch, keep trip memories together, and understand shared spending without switching between apps.
 
-2. Start the app
+Bonfire is designed for groups, not one-to-one conversations.
 
-   ```bash
-   npx expo start
-   ```
+## First experience
 
-In the output, you'll find options to open the app in a
+The first version focuses on one complete journey:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1. Sign up.
+2. Create a trip group.
+3. Add friends to it.
+4. Chat together in the group.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## What comes later
 
-## Get a fresh project
+Once group chat is solid, Bonfire can grow to include:
 
-When you're ready, run:
+- Shared trip photos and files
+- Group expenses and balances
+- Trip planning tools
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The goal is not to copy several apps. It is to make the shared trip experience feel simpler, more connected, and easier to remember.
