@@ -1,88 +1,190 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-type TripGroup = {
+const brandIcon = require('@/assets/icons/burn.png');
+
+type TripChat = {
+  accent: string;
   id: string;
+  memberNames: string[];
   name: string;
-  members: number;
 };
 
-const tripGroups: TripGroup[] = [
-  { id: 'goa', name: 'Goa getaway', members: 6 },
-  { id: 'japan', name: 'Japan 2026', members: 4 },
+const tripChats: TripChat[] = [
+  {
+    id: 'goa',
+    name: 'Goa getaway',
+    memberNames: ['Dhruv', 'Aarav', 'Maya', 'Kabir', 'Riya', 'Arjun'],
+    accent: '#D87D4A',
+  },
+  {
+    id: 'japan',
+    name: 'Japan 2026',
+    memberNames: ['Dhruv', 'Nisha', 'Ishaan', 'Tara'],
+    accent: '#7869B5',
+  },
+  {
+    id: 'himachal',
+    name: 'Himachal long weekend',
+    memberNames: ['Dhruv', 'Sana', 'Veer', 'Meera', 'Rohan'],
+    accent: '#4F9A87',
+  },
+  {
+    id: 'london',
+    name: 'London reunion',
+    memberNames: ['Dhruv', 'Anya', 'Dev', 'Neil', 'Zoya'],
+    accent: '#B56C7D',
+  },
 ];
 
-export default function HomeScreen() {
+export default function ChatsScreen() {
+  const [search, setSearch] = useState('');
+  const filteredChats = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return tripChats;
+
+    return tripChats.filter(
+      (chat) =>
+        chat.name.toLowerCase().includes(query) ||
+        chat.memberNames.some((member) => member.toLowerCase().includes(query)),
+    );
+  }, [search]);
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.eyebrow}>BONFIRE</Text>
-          <Text style={styles.greeting}>Good evening, Dhruv</Text>
-          <Text style={styles.intro}>Your shared trips, all in one place.</Text>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.header}>
+        <View style={styles.brandRow}>
+          <Image source={brandIcon} style={styles.brandIcon} />
+          <Text style={styles.title}>Bonfire</Text>
         </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your trip groups</Text>
-          {tripGroups.length === 0 ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyTitle}>No trip groups yet</Text>
-              <Text style={styles.emptyText}>Create one to start planning together.</Text>
-            </View>
-          ) : (
-            tripGroups.map((group) => (
-              <Pressable key={group.id} style={styles.groupCard}>
-                <View style={styles.groupIcon}>
-                  <Text style={styles.groupIconText}>{group.name.charAt(0)}</Text>
-                </View>
-                <View style={styles.groupDetails}>
-                  <Text style={styles.groupName}>{group.name}</Text>
-                  <Text style={styles.memberCount}>
-                    {group.members} {group.members === 1 ? 'member' : 'members'}
-                  </Text>
-                </View>
-                <Text style={styles.chevron}>›</Text>
-              </Pressable>
-            ))
-          )}
-        </View>
-
-        <Pressable style={styles.createButton}>
-          <Text style={styles.createButtonText}>+ Create a trip group</Text>
+        <Pressable accessibilityLabel="Create a trip group" style={styles.createButton}>
+          <Text style={styles.createButtonText}>＋</Text>
         </Pressable>
+      </View>
+
+      <View style={styles.searchBox}>
+        <Text style={styles.searchIcon}>⌕</Text>
+        <TextInput
+          accessibilityLabel="Search trip groups"
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={setSearch}
+          placeholder="Search trip groups"
+          placeholderTextColor="#8A878E"
+          style={styles.searchInput}
+          value={search}
+        />
+      </View>
+
+      <ScrollView contentContainerStyle={styles.listContent} keyboardShouldPersistTaps="handled">
+        {filteredChats.length ? (
+          filteredChats.map((chat) => (
+            <Pressable key={chat.id} style={styles.chatRow}>
+              <View style={[styles.avatar, { backgroundColor: chat.accent }]}>
+                <Text style={styles.avatarText}>{chat.name.charAt(0)}</Text>
+              </View>
+              <View style={styles.chatDetails}>
+                <View style={styles.chatTitleRow}>
+                  <Text numberOfLines={1} style={styles.chatName}>
+                    {chat.name}
+                  </Text>
+                  <Text style={styles.memberCount}>{chat.memberNames.length} members</Text>
+                </View>
+                <Text ellipsizeMode="tail" numberOfLines={1} style={styles.members}>
+                  {chat.memberNames.join(', ')}
+                </Text>
+              </View>
+            </Pressable>
+          ))
+        ) : (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>No trip groups found</Text>
+            <Text style={styles.emptyText}>Try another group or member name.</Text>
+          </View>
+        )}
       </ScrollView>
+
+      <View style={styles.bottomNav}>
+        <Pressable accessibilityState={{ selected: true }} style={styles.navItem}>
+          <Text style={styles.navIcon}>▰</Text>
+          <Text style={styles.navLabelActive}>Chats</Text>
+        </Pressable>
+        <Pressable accessibilityLabel="Settings" style={styles.navItem}>
+          <Text style={styles.navIconMuted}>⚙</Text>
+          <Text style={styles.navLabel}>Settings</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#FFF9F3' },
-  content: { flexGrow: 1, gap: 32, padding: 24 },
-  header: { gap: 8, paddingTop: 16 },
-  eyebrow: { color: '#B84A28', fontSize: 12, fontWeight: '700', letterSpacing: 1.4 },
-  greeting: { color: '#241914', fontSize: 30, fontWeight: '700', letterSpacing: -0.6 },
-  intro: { color: '#70615A', fontSize: 16 },
-  section: { gap: 12 },
-  sectionTitle: { color: '#241914', fontSize: 20, fontWeight: '700' },
-  groupCard: {
-    alignItems: 'center', backgroundColor: '#FFFFFF', borderColor: '#EFE5DC', borderRadius: 16,
-    borderWidth: 1, flexDirection: 'row', gap: 14, padding: 16,
+  safeArea: { flex: 1, backgroundColor: '#151317' },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
-  groupIcon: {
-    alignItems: 'center', backgroundColor: '#F5D7C8', borderRadius: 14, height: 48,
-    justifyContent: 'center', width: 48,
+  brandRow: { alignItems: 'center', flexDirection: 'row', gap: 9 },
+  brandIcon: { height: 25, tintColor: '#F07D43', width: 25 },
+  title: { color: '#F8F6F4', fontSize: 29, fontWeight: '700', letterSpacing: -0.8 },
+  createButton: {
+    alignItems: 'center',
+    backgroundColor: '#2A272D',
+    borderRadius: 18,
+    height: 36,
+    justifyContent: 'center',
+    width: 36,
   },
-  groupIconText: { color: '#8A321B', fontSize: 20, fontWeight: '700' },
-  groupDetails: { flex: 1, gap: 4 },
-  groupName: { color: '#241914', fontSize: 16, fontWeight: '600' },
-  memberCount: { color: '#70615A', fontSize: 14 },
-  chevron: { color: '#A18F85', fontSize: 28, lineHeight: 28 },
-  emptyState: {
-    alignItems: 'center', backgroundColor: '#FFFFFF', borderColor: '#EFE5DC', borderRadius: 16,
-    borderStyle: 'dashed', borderWidth: 1, gap: 8, padding: 32,
+  createButtonText: { color: '#F8F6F4', fontSize: 24, fontWeight: '400', lineHeight: 28 },
+  searchBox: {
+    alignItems: 'center',
+    backgroundColor: '#26232A',
+    borderRadius: 24,
+    flexDirection: 'row',
+    height: 48,
+    marginHorizontal: 20,
+    marginTop: 18,
+    paddingHorizontal: 16,
   },
-  emptyTitle: { color: '#241914', fontSize: 16, fontWeight: '600' },
-  emptyText: { color: '#70615A', fontSize: 14, textAlign: 'center' },
-  createButton: { alignItems: 'center', backgroundColor: '#B84A28', borderRadius: 14, marginTop: 'auto', paddingVertical: 16 },
-  createButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+  searchIcon: { color: '#AAA6AE', fontSize: 28, lineHeight: 28, marginRight: 8, marginTop: -4 },
+  searchInput: { color: '#F8F6F4', flex: 1, fontSize: 16, height: '100%' },
+  listContent: { paddingBottom: 88, paddingTop: 12 },
+  chatRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 13,
+    minHeight: 82,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  avatar: { alignItems: 'center', borderRadius: 25, height: 50, justifyContent: 'center', width: 50 },
+  avatarText: { color: '#FFF9F5', fontSize: 20, fontWeight: '700' },
+  chatDetails: { flex: 1, gap: 5, minWidth: 0 },
+  chatTitleRow: { alignItems: 'center', flexDirection: 'row', gap: 8 },
+  chatName: { color: '#F8F6F4', flex: 1, fontSize: 16, fontWeight: '700' },
+  memberCount: { color: '#98939D', fontSize: 12 },
+  members: { color: '#A8A3AC', fontSize: 14 },
+  emptyState: { alignItems: 'center', gap: 6, paddingHorizontal: 24, paddingTop: 70 },
+  emptyTitle: { color: '#F8F6F4', fontSize: 17, fontWeight: '700' },
+  emptyText: { color: '#A8A3AC', fontSize: 14, textAlign: 'center' },
+  bottomNav: {
+    alignItems: 'center',
+    backgroundColor: '#201D22',
+    borderTopColor: '#302C33',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 4,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+  },
+  navItem: { alignItems: 'center', gap: 4, minWidth: 92, paddingVertical: 2 },
+  navIcon: { color: '#F07D43', fontSize: 30 },
+  navIconMuted: { color: '#99949D', fontSize: 30 },
+  navLabel: { color: '#99949D', fontSize: 14, fontWeight: '600' },
+  navLabelActive: { color: '#F07D43', fontSize: 14, fontWeight: '700' },
 });

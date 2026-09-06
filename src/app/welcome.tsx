@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { ImageBackground, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -9,6 +10,8 @@ const phoneIcon = require('@/assets/icons/phone-call.png');
 const RNImage = require('react-native').Image;
 
 export default function WelcomeScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.screen}>
       <StatusBar barStyle="light-content" />
@@ -21,7 +24,10 @@ export default function WelcomeScreen() {
       </ImageBackground>
 
       <SafeAreaView style={styles.safeArea}>
-        <Pressable accessibilityLabel="Skip welcome" style={styles.skipButton}>
+        <Pressable
+          accessibilityLabel="Skip welcome"
+          onPress={() => router.replace('/')}
+          style={styles.skipButton}>
           <Text style={styles.skipText}>Skip</Text>
         </Pressable>
 
@@ -33,11 +39,17 @@ export default function WelcomeScreen() {
           </View>
 
           <View style={styles.actions}>
-            <Pressable accessibilityLabel="Continue with Google" style={styles.googleButton}>
+            <Pressable
+              accessibilityLabel="Continue with Google"
+              onPress={() => router.replace('/')}
+              style={styles.googleButton}>
               <RNImage accessibilityLabel="Google" source={googleIcon} style={styles.googleIcon} />
               <Text style={styles.googleButtonText}>Continue with Google</Text>
             </Pressable>
-            <Pressable accessibilityLabel="Continue with phone" style={styles.phoneButton}>
+            <Pressable
+              accessibilityLabel="Continue with phone"
+              onPress={() => router.replace('/')}
+              style={styles.phoneButton}>
               <RNImage accessibilityLabel="Phone" source={phoneIcon} style={styles.phoneIcon} />
               <Text style={styles.phoneButtonText}>Continue with Phone</Text>
             </Pressable>
