@@ -1,9 +1,7 @@
 import { SymbolView } from 'expo-symbols';
 import { useMemo, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const brandIcon = require('@/assets/icons/burn.png');
 
 type TripChat = {
   accent: string;
@@ -55,16 +53,15 @@ export default function ChatsScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.header}>
-        <View style={styles.brandRow}>
-          <Image source={brandIcon} style={styles.brandIcon} />
-          <Text style={styles.title}>Bonfire</Text>
-        </View>
+        <Text style={styles.title}>Bonfire</Text>
         <Pressable accessibilityLabel="Create a trip group" style={styles.createButton}>
-          <SymbolView
-            name={{ ios: 'plus', android: 'add', web: 'add' }}
-            size={22}
-            tintColor="#F8F6F4"
-          />
+          <View style={styles.createIconContainer}>
+            <SymbolView
+              name={{ ios: 'plus', android: 'add', web: 'add' }}
+              size={25}
+              tintColor="#F8F6F4"
+            />
+          </View>
         </Pressable>
       </View>
 
@@ -76,11 +73,11 @@ export default function ChatsScreen() {
           tintColor="#AAA6AE"
         />
         <TextInput
-          accessibilityLabel="Search trip groups"
+          accessibilityLabel="Find Your Group..."
           autoCapitalize="none"
           autoCorrect={false}
           onChangeText={setSearch}
-          placeholder="Search trip groups"
+          placeholder="Find Your Group..."
           placeholderTextColor="#8A878E"
           style={styles.searchInput}
           value={search}
@@ -150,8 +147,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
   },
-  brandRow: { alignItems: 'center', flexDirection: 'row', gap: 9 },
-  brandIcon: { height: 25, tintColor: '#F07D43', width: 25 },
   title: { color: '#F8F6F4', fontSize: 29, fontWeight: '700', letterSpacing: -0.8 },
   createButton: {
     alignItems: 'center',
@@ -160,6 +155,13 @@ const styles = StyleSheet.create({
     height: 36,
     justifyContent: 'center',
     width: 36,
+  },
+  createIconContainer: {
+    alignItems: 'center',
+    height: 22,
+    justifyContent: 'center',
+    transform: [{ translateX: 1.9 }, { translateY: 1.9 }],
+    width: 22,
   },
   searchBox: {
     alignItems: 'center',
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
     paddingHorizontal: 16,
   },
-  searchIcon: { marginRight: 8 },
+  searchIcon: { marginRight: 8, transform: [{ translateY: 3 }] },
   searchInput: { color: '#F8F6F4', flex: 1, fontSize: 16, height: '100%' },
   listContent: { paddingBottom: 88, paddingTop: 12 },
   chatRow: {
