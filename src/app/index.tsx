@@ -1,3 +1,4 @@
+import { SymbolView } from 'expo-symbols';
 import { useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -59,12 +60,21 @@ export default function ChatsScreen() {
           <Text style={styles.title}>Bonfire</Text>
         </View>
         <Pressable accessibilityLabel="Create a trip group" style={styles.createButton}>
-          <Text style={styles.createButtonText}>＋</Text>
+          <SymbolView
+            name={{ ios: 'plus', android: 'add', web: 'add' }}
+            size={22}
+            tintColor="#F8F6F4"
+          />
         </Pressable>
       </View>
 
       <View style={styles.searchBox}>
-        <Text style={styles.searchIcon}>⌕</Text>
+        <SymbolView
+          name={{ ios: 'magnifyingglass', android: 'search', web: 'search' }}
+          size={22}
+          style={styles.searchIcon}
+          tintColor="#AAA6AE"
+        />
         <TextInput
           accessibilityLabel="Search trip groups"
           autoCapitalize="none"
@@ -106,12 +116,24 @@ export default function ChatsScreen() {
       </ScrollView>
 
       <View style={styles.bottomNav}>
-        <Pressable accessibilityState={{ selected: true }} style={styles.navItem}>
-          <Text style={styles.navIcon}>▰</Text>
-          <Text style={styles.navLabelActive}>Chats</Text>
+        <Pressable accessibilityLabel="Groups" accessibilityState={{ selected: true }} style={styles.navItem}>
+          <View style={styles.navIconContainer}>
+            <SymbolView
+              name={{ ios: 'person.2.fill', android: 'group', web: 'group' }}
+              size={26}
+              tintColor="#F07D43"
+            />
+          </View>
+          <Text style={styles.navLabelActive}>Groups</Text>
         </Pressable>
         <Pressable accessibilityLabel="Settings" style={styles.navItem}>
-          <Text style={styles.navIconMuted}>⚙</Text>
+          <View style={styles.navIconContainer}>
+            <SymbolView
+              name={{ ios: 'gearshape.fill', android: 'settings', web: 'settings' }}
+              size={26}
+              tintColor="#99949D"
+            />
+          </View>
           <Text style={styles.navLabel}>Settings</Text>
         </Pressable>
       </View>
@@ -139,7 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 36,
   },
-  createButtonText: { color: '#F8F6F4', fontSize: 24, fontWeight: '400', lineHeight: 28 },
   searchBox: {
     alignItems: 'center',
     backgroundColor: '#26232A',
@@ -150,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
     paddingHorizontal: 16,
   },
-  searchIcon: { color: '#AAA6AE', fontSize: 28, lineHeight: 28, marginRight: 8, marginTop: -4 },
+  searchIcon: { marginRight: 8 },
   searchInput: { color: '#F8F6F4', flex: 1, fontSize: 16, height: '100%' },
   listContent: { paddingBottom: 88, paddingTop: 12 },
   chatRow: {
@@ -183,8 +204,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   navItem: { alignItems: 'center', gap: 4, minWidth: 92, paddingVertical: 2 },
-  navIcon: { color: '#F07D43', fontSize: 30 },
-  navIconMuted: { color: '#99949D', fontSize: 30 },
+  navIconContainer: { alignItems: 'center', height: 30, justifyContent: 'center', width: 30 },
   navLabel: { color: '#99949D', fontSize: 14, fontWeight: '600' },
   navLabelActive: { color: '#F07D43', fontSize: 14, fontWeight: '700' },
 });
