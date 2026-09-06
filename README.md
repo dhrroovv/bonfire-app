@@ -2,7 +2,7 @@
 
 Bonfire is a shared space for friend groups travelling together.
 
-Planning a trip often splits a group across separate places: a chat for decisions and conversation, a drive for photos, and an expense app for bills. Bonfire brings those group experiences into one home.
+Planning a trip often splits a group across separate places: <mark>a chat for decisions and conversation, a drive for photos, and an expense app for bills. Bonfire brings those group experiences into one home. </mark>
 
 ## The idea
 
